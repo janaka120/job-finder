@@ -21,7 +21,7 @@ const state = reactive({
 onMounted(async () => {
     try {
         state.isLoading = true;
-        const response = await axios.get('http://localhost:6001/jobs');
+        const response = await axios.get('api/jobs');
         state.jobs = response.data;
     } catch (error) {
         console.log("error | loading jobs list >>", error);
@@ -29,7 +29,6 @@ onMounted(async () => {
         state.isLoading = false;
     }
 })
-
 </script>
 
 <template>
@@ -41,8 +40,8 @@ onMounted(async () => {
             <div v-if="state.isLoading" class="text-center text-gray-500 py-6">
                 <PulseLoader />
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <JobListing v-for="job in state.jobs.slice(0, limit || jobs.length)" :key="job.id" :job="job" />
+            <div v-else="!state.isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <JobListing v-for="job in state?.jobs.slice(0, limit || jobs?.length)" :key="job.id" :job="job" />
             </div>
         </div>
     </section>
