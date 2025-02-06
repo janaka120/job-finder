@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid'); 
+
 const app = express();
 const port = 6001;
 
@@ -105,17 +107,17 @@ app.post('/job', async (req, res) => {
   try {
     console.log("body >>>", req.body);
     const newJob = new Jobs({
-      "id": "1",
-      "title": "Senior Vue Developer",
-      "type": "Full-Time",
-      "description": "We are seeking a talented Front-End Developer to join our team in Boston, MA. The ideal candidate will have strong skills in HTML, CSS, and JavaScript, with experience working with modern JavaScript frameworks such as Vue or Angular.",
-      "location": "Boston, MA",
-      "salary": "$70K - $80K",
+      id: uuidv4(),
+      "title": req.body.title,
+      "type": req.body.type,
+      "description": req.body.description,
+      "location": req.body.location,
+      "salary": req.body.salary,
       "company": {
-        "name": "NewTek Solutions",
-        "description": "NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment.",
-        "contactEmail": "contact@teksolutions.com",
-        "contactPhone": "555-555-5555"
+        "name": req.body.company.name,
+        "description": req.body.company.description,
+        "contactEmail": req.body.company.contactEmail,
+        "contactPhone": req.body.company.contactPhone
       }
     });
     const savedJob = await newJob.save();
