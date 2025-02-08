@@ -41,7 +41,7 @@ onMounted(async () => {
             form.type = res.data.type;
             form.description = res.data.description;
             form.company = res.data.company;
-        }else {
+        } else {
             throw Error('Unable to load job data')
         }
     } catch (error) {
@@ -52,14 +52,33 @@ onMounted(async () => {
     }
 });
 
+const updateJobHandler = async () => {
+    try {
+        isLoading.current = true;
+        const res = await axios.post(`api/jobs/update/${form.id}`, form);
+        console.log("res >>>", res);
+        if (res.data) {
+            toast.success("Job updated successfully.")
+        } else {
+            throw Error('Fail to update job')
+        }
+    } catch (error) {
+        console.log("Error job update >>>", error);
+        toast.error("Fail to update job")
+    } finally {
+        isLoading.current = false;
+    }
+}
+
 </script>
 
 <template>
     <BackButton />
-    <section v-if="!isLoading.current" class="bg-green-50">
+
+    <section class="bg-green-50">
         <div class="container m-auto max-w-2xl py-24">
             <div class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-                <form @submit.prevent="createJob">
+                <form @submit.prevent="updateJobHandler">
                     <h2 class="text-3xl text-center font-semibold mb-6">Edit Job</h2>
 
                     <div class="mb-4">
@@ -150,7 +169,7 @@ onMounted(async () => {
             </div>
         </div>
     </section>
-    <div v-else="isLoading.current" class="text-center text-gray-500 py-6">
+    <div v-show="isLoading.current" class="text-center text-gray-500 py-6">
         <PulseLoader />
     </div>
 </template>
