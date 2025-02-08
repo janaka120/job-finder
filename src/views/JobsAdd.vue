@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { reactive } from 'vue';
 import router from '@/router';
+import { useToast } from "vue-toastification";
 
 const form = reactive({
     type: 'Full-Time',
@@ -15,7 +16,10 @@ const form = reactive({
         "contactEmail": "",
         "contactPhone": "",
     }
-})
+});
+// Get toast interface
+const toast = useToast();
+
 const createJob = async (e) => {
     console.log("createJob | e >>", e);
     try {
@@ -32,11 +36,16 @@ const createJob = async (e) => {
                 "contactPhone": form.company.contactPhone
             }
         });
-        router.push(`/job/${res.data.id}`)
-    } catch (error) {
-        console.log("create job error", error)
-    }finally {
+        toast.success("Successfully create a Job.", {
+            timeout: 2000
+        });
+        router.push(`/job/${res.data.id}`);
 
+    } catch (error) {
+        console.log("create job error", error);
+        toast.error("Fail to create a Job.", {
+            timeout: 2000
+        });
     }
 }
 </script>
@@ -50,7 +59,8 @@ const createJob = async (e) => {
 
                     <div class="mb-4">
                         <label for="type" class="block text-gray-700 font-bold mb-2">Job Type</label>
-                        <select v-model="form.type" id="type" name="type" class="border rounded w-full py-2 px-3" required>
+                        <select v-model="form.type" id="type" name="type" class="border rounded w-full py-2 px-3"
+                            required>
                             <option value="Full-Time">Full-Time</option>
                             <option value="Part-Time">Part-Time</option>
                             <option value="Remote">Remote</option>
@@ -60,18 +70,20 @@ const createJob = async (e) => {
 
                     <div class="mb-4">
                         <label class="block text-gray-700 font-bold mb-2">Job Listing Name</label>
-                        <input v-model="form.title" type="text" id="name" name="name" class="border rounded w-full py-2 px-3 mb-2"
-                            placeholder="eg. Software Engineer" required />
+                        <input v-model="form.title" type="text" id="name" name="name"
+                            class="border rounded w-full py-2 px-3 mb-2" placeholder="eg. Software Engineer" required />
                     </div>
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
-                        <textarea v-model="form.description" id="description" name="description" class="border rounded w-full py-2 px-3" rows="4"
+                        <textarea v-model="form.description" id="description" name="description"
+                            class="border rounded w-full py-2 px-3" rows="4"
                             placeholder="Add any job duties, expectations, requirements, etc"></textarea>
                     </div>
 
                     <div class="mb-4">
                         <label for="type" class="block text-gray-700 font-bold mb-2">Salary</label>
-                        <select v-model="form.salary" id="salary" name="salary" class="border rounded w-full py-2 px-3" required>
+                        <select v-model="form.salary" id="salary" name="salary" class="border rounded w-full py-2 px-3"
+                            required>
                             <option value="Under $50K">under $50K</option>
                             <option value="$50K - $60K">$50 - $60K</option>
                             <option value="$60K - $70K">$60 - $70K</option>
@@ -90,22 +102,22 @@ const createJob = async (e) => {
                         <label class="block text-gray-700 font-bold mb-2">
                             Location
                         </label>
-                        <input v-model="form.location" type="text" id="location" name="location" class="border rounded w-full py-2 px-3 mb-2"
-                            placeholder="Company Location" required />
+                        <input v-model="form.location" type="text" id="location" name="location"
+                            class="border rounded w-full py-2 px-3 mb-2" placeholder="Company Location" required />
                     </div>
 
                     <h3 class="text-2xl mb-5">Company Info</h3>
 
                     <div class="mb-4">
                         <label for="company" class="block text-gray-700 font-bold mb-2">Company Name</label>
-                        <input v-model="form.company.name" type="text" id="company" name="company" class="border rounded w-full py-2 px-3"
-                            placeholder="Company Name" />
+                        <input v-model="form.company.name" type="text" id="company" name="company"
+                            class="border rounded w-full py-2 px-3" placeholder="Company Name" />
                     </div>
 
                     <div class="mb-4">
                         <label for="company_description" class="block text-gray-700 font-bold mb-2">Company
                             Description</label>
-                        <textarea  v-model="form.company.description" id="company_description" name="company_description"
+                        <textarea v-model="form.company.description" id="company_description" name="company_description"
                             class="border rounded w-full py-2 px-3" rows="4"
                             placeholder="What does your company do?"></textarea>
                     </div>
