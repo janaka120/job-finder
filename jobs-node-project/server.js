@@ -142,6 +142,47 @@ app.post("/jobs/delete/:jobId", async (req, res) => {
     res.status(500).json({ message: "Error deleting job" });
   }
 });
+
+app.post("/jobs/update/:jobId", async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const { title, type, description, location, salary, company } = req.body;
+    const {
+      name,
+      description: companyDes,
+      contactEmail,
+      contactPhone,
+    } = company;
+    const updatedJob = await Jobs.findOneAndUpdate(
+      { id: jobId },
+      {
+        $set: {
+          title,
+          type,
+          description,
+          location,
+          salary,
+          company: {
+            name,
+            description: companyDes,
+            contactEmail,
+            contactPhone,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedJob) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    return res.json(updatedJob);
+  } catch (error) {
+    console.log("Error Server | update:", error);
+    res.status(500).json({ message: "Error updating fail" });
+  }
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
