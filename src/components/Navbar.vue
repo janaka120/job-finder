@@ -1,5 +1,5 @@
 <script setup>
-import logo from '@/assets/img/logo.png';
+import logo from '@/assets/img/app-logo.jpeg';
 import { RouterLink, useRoute } from 'vue-router';
 
 const isActiveLink = (path) => {
@@ -15,8 +15,8 @@ const isActiveLink = (path) => {
                 <div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
                     <!-- Logo -->
                     <RouterLink class="flex flex-shrink-0 items-center mr-4" to="/">
-                        <img class="h-10 w-auto" :src="logo" alt="Vue Jobs" />
-                        <span class="hidden md:block text-white text-2xl font-bold ml-2">Vue Jobs</span>
+                        <img class="h-10 w-auto" :src="logo" alt="SkillScout" />
+                        <span class="hidden md:block text-white text-2xl font-bold ml-2">SkillScout</span>
                     </RouterLink>
                     <div class="md:ml-auto">
                         <div class="flex space-x-2">

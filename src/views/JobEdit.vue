@@ -2,11 +2,10 @@
 import BackButton from '@/components/BackButton.vue';
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import { useToast } from 'vue-toastification';
 
-const router = useRouter;
 const route = useRoute();
 const jobId = route.params.id;
 
