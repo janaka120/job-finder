@@ -31,11 +31,6 @@ This project is a job board application built with:
     cd job-finder
     npm install
 
-Backend:
-    ```bash
-    cd jobs-node-project
-    npm install
-
 3. **Start MongoDB:**
     ```bash
     sudo mongod --dbpath=/path-users/user/data/db
